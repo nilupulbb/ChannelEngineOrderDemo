@@ -1,64 +1,66 @@
 ﻿@model MostOrderedProductsModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Channel Engine Demo";
 }
 @section Scripts
 {
     <script type="text/javascript">
-        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
-            $("#success-alert").slideUp(500);
-        });
-        $("#danger-alert").fadeTo(2000, 500).slideUp(500, function () {
-            $("#danger-alert").slideUp(500);
-        });
+        fadeMsg('success-alert');
+        fadeMsg('danger-alert');
+
+        function fadeMsg(id) {
+            $("#" + id).fadeTo(2000, 500).slideUp(500, function () {
+                $("#" + id).slideUp(500);
+            });
+        }
     </script>
 }
 
-    <div class="text-center">
-        <h1 class="display-4">Channel Engine API Demo</h1>
-        <br />
-        <br />
-        <h2>Top 5 Products</h2>
+<div class="text-center">
+    <h1 class="display-4">Channel Engine API Demo</h1>
+    <br />
+    <br />
+    <h2>Top 5 Products</h2>
 
-        @if(Model.OperationSucceeded == true){
+    @if (Model.OperationSucceeded == true)
+    {
         <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
             Operation Successful!
         </div>
-        }
+    }
 
-        @if(Model.OperationSucceeded == false){
+    @if (Model.OperationSucceeded == false)
+    {
         <div class="alert alert-danger alert-dismissible fade show" role="alert" id="danger-alert">
             Operation Failed!
         </div>
-        }
+    }
 
-        <table class="table">
-            <thead>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Product</th>
+                <th scope="col">GTIN</th>
+                <th scope="col">Total Quantity</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
                 <tr>
-                    <th scope="col">Product</th>
-                    <th scope="col">GTIN</th>
-                    <th scope="col">Total Quantity</th>
-                    <th scope="col"></th>
+                    <th scope="row">@product.Description</th>
+                    <td>@product.Gtin</td>
+                    <td>@product.TotalQuantity</td>
+                    <td>
+                        <input class="btn btn-primary btn-sm" type="button" value="Reset Stock"
+                               onclick="location.href='@Url.Action("ResetStock", "Product", new { merchantProductNo = product.MerchantProductNo })'" />
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var product in Model.Products)
-                {
-                    <tr>
-                        <th scope="row">@product.Description</th>
-                        <td>@product.Gtin</td>
-                        <td>@product.TotalQuantity</td>
-                        <td>
-                            <input class="btn btn-primary btn-sm" type="button" value="Reset Stock"
-                                   onclick="location.href='@Url.Action("ResetStock", "Product", new { merchantProductNo = product.MerchantProductNo })'" />
-                        </td>
-                    </tr>
-                }
+            }
 
-            </tbody>
+        </tbody>
+    </table>
+</div>
 
-        </table>
-
-
-    </div>
 

@@ -9,11 +9,10 @@ namespace ChannelEngineOrderDemo.Console
 {
     class Program
     {
-        static readonly int tableWidth = System.Console.WindowWidth - 4;
-        static readonly int firstRowWidth = 45;
+        private static readonly int tableWidth = System.Console.WindowWidth - 4;
+        private static readonly int firstRowWidth = 45;
         static void Main(string[] args)
         {
-
             var builder = new ConfigurationBuilder()
                             .SetBasePath(AppContext.BaseDirectory)
                             .AddJsonFile("appsettings.json", optional: false);
@@ -40,16 +39,23 @@ namespace ChannelEngineOrderDemo.Console
         private static void PrintProductTable(ServiceProvider serviceProvider)
         {
             System.Console.WriteLine("Most ordered products are listed below");
-
-            var products = serviceProvider.GetService<IOrderDemoService>().GetProductsOrderByQtyDesc(5).GetAwaiter().GetResult();
-            PrintLine();
-            PrintRow("Product", "GTIN", "Quantity", "Merchant Product No");
-            PrintLine();
-            foreach (var product in products)
+            try
             {
-                PrintRow(product.Description, product.Gtin, product.TotalQuantity.ToString(), product.MerchantProductNo);
+                var products = serviceProvider.GetService<IOrderDemoService>().GetProductsOrderByQtyDesc(5).GetAwaiter().GetResult();
+                PrintLine();
+                PrintRow("Product", "GTIN", "Quantity", "Merchant Product No");
+                PrintLine();
+                foreach (var product in products)
+                {
+                    PrintRow(product.Description, product.Gtin, product.TotalQuantity.ToString(), product.MerchantProductNo);
+                }
+                PrintLine();
             }
-            PrintLine();
+            catch
+            {
+                // TODO: Error handling
+                System.Console.WriteLine("Failed Listing");
+            }
         }
 
         private static bool PromptToResetStock(ServiceProvider serviceProvider)
@@ -64,18 +70,19 @@ namespace ChannelEngineOrderDemo.Console
             }
             catch
             {
+                // TODO: Error handling
                 System.Console.WriteLine("Failed");
             }
             return true;
         }
 
         #region Table Functions
-        static void PrintLine()
+        private static void PrintLine()
         {
             System.Console.WriteLine(new string('-', tableWidth));
         }
 
-        static void PrintRow(params string[] columns)
+        private static void PrintRow(params string[] columns)
         {
             int width = columns.Length == 1 ? 0 : (tableWidth - columns.Length - firstRowWidth) / (columns.Length - 1);
             string row = "|";
@@ -90,7 +97,7 @@ namespace ChannelEngineOrderDemo.Console
             System.Console.WriteLine(row);
         }
 
-        static string AlignCentre(string text, int width)
+        private static string AlignCentre(string text, int width)
         {
             text = text.Length > width ? text.Substring(0, width - 3) + "..." : text;
 

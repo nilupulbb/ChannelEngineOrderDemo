@@ -23,6 +23,7 @@ namespace ChannelEngineOrderDemo.Logic.Services
             if (orders.Count > 0 && orders.Any(p => p.Lines.Length > 0))
             {
                 products = orders
+                            .Where(p => p.Lines != null)
                             .SelectMany(p => p.Lines)
                             .GroupBy(p => p.Description)
                             .Select(p => new ProductInfo
