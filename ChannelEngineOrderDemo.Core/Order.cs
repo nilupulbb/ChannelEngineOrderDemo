@@ -4,7 +4,6 @@ using System.Text;
 
 namespace ChannelEngineOrderDemo.Core
 {
-
     public class Order
     {
         public int Id { get; set; }
