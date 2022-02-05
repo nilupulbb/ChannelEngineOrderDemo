@@ -1,5 +1,7 @@
 ﻿using ChannelEngineOrderDemo.Core;
+using ChannelEngineOrderDemo.Core.Enums;
 using ChannelEngineOrderDemo.Integration.ResponseObj;
+using ChannelEngineOrderDemo.Logic.Infrastructure;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,14 +11,24 @@ using System.Text;
 
 namespace ChannelEngineOrderDemo.Integration
 {
-    public class OrderService : APIService<Order>
+    public class OrderService : APIService<Order>, IOrderService
     {
-        public OrderService(string apiPathMajor, string apiPathMinor, HttpClient client) : base(apiPathMajor, apiPathMinor, client) { }
+        public OrderService(string apiPathMajor, string apiKey) : base(apiPathMajor, "orders", apiKey) { }
 
-        protected override IList<Order> ExtractGetListFromResponse(string response)
+        public string GetServiceSpecificOrderStatus(OrderStatus orderStatus)
         {
-            var responseObj = JsonConvert.DeserializeObject<GetListReponse<Order>>(response);
-            return responseObj.Content.ToList();
+            switch (orderStatus) {
+                case OrderStatus.Inprogress:
+                    return "IN_PROGRESS";
+                default:
+                    return null;
+            }
+
+        }
+
+        public string GetServiceSpecificOrderStatusKey()
+        {
+            return "statuses";
         }
     }
 }

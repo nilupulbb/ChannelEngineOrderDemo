@@ -23,27 +23,27 @@ namespace ChannelEngineOrderDemo.Core
         public Address ShippingAddress { get; set; }
         public float SubTotalInclVat { get; set; }
         public float SubTotalVat { get; set; }
-        public int ShippingCostsVat { get; set; }
+        public float ShippingCostsVat { get; set; }
         public float TotalInclVat { get; set; }
         public float TotalVat { get; set; }
         public float OriginalSubTotalInclVat { get; set; }
         public float OriginalSubTotalVat { get; set; }
-        public int OriginalShippingCostsInclVat { get; set; }
-        public int OriginalShippingCostsVat { get; set; }
+        public float OriginalShippingCostsInclVat { get; set; }
+        public float OriginalShippingCostsVat { get; set; }
         public float OriginalTotalInclVat { get; set; }
         public float OriginalTotalVat { get; set; }
         public LineDetail[] Lines { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-        public object CompanyRegistrationNo { get; set; }
-        public object VatNo { get; set; }
+        public string CompanyRegistrationNo { get; set; }
+        public string VatNo { get; set; }
         public string PaymentMethod { get; set; }
-        public object PaymentReferenceNo { get; set; }
-        public int ShippingCostsInclVat { get; set; }
+        public string PaymentReferenceNo { get; set; }
+        public float ShippingCostsInclVat { get; set; }
         public string CurrencyCode { get; set; }
         public DateTime OrderDate { get; set; }
-        public object ChannelCustomerNo { get; set; }
-        public ExtraData ExtraData { get; set; }
+        public string ChannelCustomerNo { get; set; }
+        public ExtraDataObj ExtraData { get; set; }
     }
 
 }

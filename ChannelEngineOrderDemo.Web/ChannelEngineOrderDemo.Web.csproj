@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChannelEngineOrderDemo.Core\ChannelEngineOrderDemo.Core.csproj" />
+    <ProjectReference Include="..\ChannelEngineOrderDemo.Integration\ChannelEngineOrderDemo.Integration.csproj" />
     <ProjectReference Include="..\ChannelEngineOrderDemo.Logic\ChannelEngineOrderDemo.Logic.csproj" />
   </ItemGroup>
 

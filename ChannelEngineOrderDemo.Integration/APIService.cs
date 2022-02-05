@@ -1,5 +1,7 @@
 ﻿using ChannelEngineOrderDemo.Core;
+using ChannelEngineOrderDemo.Integration.ResponseObj;
 using ChannelEngineOrderDemo.Logic.Infrastructure;
+using ChannelEngineOrderDemo.Logic.Objects;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,40 +9,64 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Linq;
 
 namespace ChannelEngineOrderDemo.Integration
 {
     public abstract class APIService<T> : IDataService<T>
     {
-        protected string _apiPathMajor;
+        protected readonly string _apiPathMinor;
 
-        protected string _apiPathMinor;
+        protected readonly string _apiKey;
 
         private readonly HttpClient _client;
 
-        public APIService(string apiPathMajor, string apiPathMinor, HttpClient client)
+        public APIService(string apiPathMajor, string apiPathMinor, string apiKey)
         {
-            _apiPathMajor = apiPathMajor;
             _apiPathMinor = apiPathMinor;
-            _client = client;
+            _apiKey = apiKey;
+            _client = new HttpClient() { BaseAddress = new Uri(apiPathMajor) };
         }
 
         public async Task<IList<T>> GetList(IDictionary<string, string> filters)
         {
-            return ExtractGetListFromResponse(await Get(_apiPathMajor + _apiPathMinor, DictionaryToQueryString(filters)));
+            return ExtractGetListFromResponse(await Get(_apiPathMinor, DictionaryToQueryString(filters)));
         }
 
-        protected abstract IList<T> ExtractGetListFromResponse(string response);
+        public async Task Patch(IList<PatchData> patches, string id)
+        {
+            await Patch(_apiPathMinor + id + "/", patches);
+        }
+        protected IList<T> ExtractGetListFromResponse(string response)
+        {
+            var responseObj = JsonConvert.DeserializeObject<GetListReponse<T>>(response);
+            return responseObj.Content.ToList();
+        }
 
         protected async Task<string> Get(string url, string queryString)
         {
-            var response = await _client.GetAsync(url + "?" + queryString);
-            if (!response.IsSuccessStatusCode)
+            using (var response = await _client.GetAsync(url + "?" + queryString + "&apikey=" + HttpUtility.UrlEncode(_apiKey)))
             {
-                // TODO: Log the error and return
-                throw new Exception(response.StatusCode.ToString());
+                if (!response.IsSuccessStatusCode)
+                {
+                    // TODO: Log the error and return
+                    throw new Exception(response.StatusCode.ToString());
+                }
+                return await response.Content.ReadAsStringAsync();
             }
-            return await response.Content.ReadAsStringAsync();
+        }
+
+        protected async Task Patch(string url, IList<PatchData> patches)
+        {
+            using (var response = await _client.PatchAsync(url + "?apikey=" + HttpUtility.UrlEncode(_apiKey)
+                    , new StringContent(JsonConvert.SerializeObject(patches), Encoding.UTF8, "application/json-patch+json")))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    // TODO: Log the error and return
+                    throw new Exception(response.StatusCode.ToString());
+                }
+            }
         }
 
         protected string DictionaryToQueryString(IDictionary<string, string> parameters)

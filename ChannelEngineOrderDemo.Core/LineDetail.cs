@@ -10,7 +10,7 @@ namespace ChannelEngineOrderDemo.Core
         public bool IsFulfillmentByMarketplace { get; set; }
         public string Gtin { get; set; }
         public string Description { get; set; }
-        public object StockLocation { get; set; }
+        public string StockLocation { get; set; }
         public float UnitVat { get; set; }
         public float LineTotalInclVat { get; set; }
         public float LineVat { get; set; }
@@ -18,19 +18,19 @@ namespace ChannelEngineOrderDemo.Core
         public float OriginalUnitVat { get; set; }
         public float OriginalLineTotalInclVat { get; set; }
         public float OriginalLineVat { get; set; }
-        public int OriginalFeeFixed { get; set; }
-        public object BundleProductMerchantProductNo { get; set; }
-        public object JurisCode { get; set; }
-        public object JurisName { get; set; }
-        public int VatRate { get; set; }
-        public object[] ExtraData { get; set; }
+        public float OriginalFeeFixed { get; set; }
+        public string BundleProductMerchantProductNo { get; set; }
+        public string JurisCode { get; set; }
+        public string JurisName { get; set; }
+        public float VatRate { get; set; }
+        public ExtraDataObj[] ExtraData { get; set; }
         public string ChannelProductNo { get; set; }
         public string MerchantProductNo { get; set; }
-        public int Quantity { get; set; }
-        public int CancellationRequestedQuantity { get; set; }
+        public float Quantity { get; set; }
+        public float CancellationRequestedQuantity { get; set; }
         public float UnitPriceInclVat { get; set; }
-        public int FeeFixed { get; set; }
-        public int FeeRate { get; set; }
+        public float FeeFixed { get; set; }
+        public float FeeRate { get; set; }
         public string Condition { get; set; }
         public DateTime ExpectedDeliveryDate { get; set; }
     }

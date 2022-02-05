@@ -1,3 +1,4 @@
+using ChannelEngineOrderDemo.Integration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChannelEngineOrderDemo.Logic.Infrastructure;
+using ChannelEngineOrderDemo.Logic.Services;
 
 namespace ChannelEngineOrderDemo.Web
 {
@@ -24,6 +27,10 @@ namespace ChannelEngineOrderDemo.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddScoped<IOrderService>(_ => new OrderService(Configuration["apiBaseUrl"], Configuration["apiKey"]));
+            services.AddScoped<IProductService>(_ => new ProductService(Configuration["apiBaseUrl"], Configuration["apiKey"]));
+            services.AddScoped<IOrderDemoService, OrderDemoService>();
+            services.AddScoped<IProductDemoService, ProductDemoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +57,7 @@ namespace ChannelEngineOrderDemo.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Product}/{action=Index}/{id?}");
             });
         }
     }

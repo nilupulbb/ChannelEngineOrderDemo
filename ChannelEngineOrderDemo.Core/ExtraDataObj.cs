@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ChannelEngineOrderDemo.Core
 {
-    public class ExtraData
+    public class ExtraDataObj
     {
         public string ExtraData { get; set; }
     }
