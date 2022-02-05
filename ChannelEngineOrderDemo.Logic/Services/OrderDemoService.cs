@@ -29,7 +29,8 @@ namespace ChannelEngineOrderDemo.Logic.Services
                             {
                                 Description = p.First().Description,
                                 Gtin = p.First().Gtin,
-                                TotalQuantity = p.Sum(q => q.Quantity)
+                                TotalQuantity = p.Sum(q => q.Quantity),
+                                MerchantProductNo = p.First().MerchantProductNo
                             })
                             .OrderByDescending(p => p.TotalQuantity)
                             .Take(numberOfOrders).ToList();

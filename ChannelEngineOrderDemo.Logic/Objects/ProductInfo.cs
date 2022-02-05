@@ -12,5 +12,7 @@ namespace ChannelEngineOrderDemo.Logic
 
         public float TotalQuantity { set; get; }
 
+        public string MerchantProductNo { set; get; }
+
     }
 }

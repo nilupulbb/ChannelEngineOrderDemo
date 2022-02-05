@@ -1,8 +1,7 @@
 ﻿using ChannelEngineOrderDemo.Logic.Infrastructure;
 using ChannelEngineOrderDemo.Logic.Objects;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace ChannelEngineOrderDemo.Logic.Services
 {
@@ -14,9 +13,9 @@ namespace ChannelEngineOrderDemo.Logic.Services
             _productService = productService;
         }
 
-        public void ResetProductStock(string merchantProductNo, int resetValue)
+        public async Task ResetProductStock(string merchantProductNo, int resetValue)
         {
-            _productService.Patch(new List<PatchData> { new PatchData { 
+            await _productService.Patch(new List<PatchData> { new PatchData { 
                                                                 Op = "replace",
                                                                 Path = "stock",
                                                                 Value = resetValue

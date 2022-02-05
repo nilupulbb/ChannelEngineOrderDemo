@@ -15,11 +15,15 @@ namespace ChannelEngineOrderDemo.Web.Controllers
     {
         private readonly ILogger<ProductController> _logger;
         private readonly IOrderDemoService _orderDemoService;
+        private readonly IProductDemoService _productDemoService;
 
-        public ProductController(ILogger<ProductController> logger, IOrderDemoService orderDemoService)
+        public ProductController(ILogger<ProductController> logger
+            , IOrderDemoService orderDemoService
+            , IProductDemoService productDemoService)
         {
             _logger = logger;
             _orderDemoService = orderDemoService;
+            _productDemoService = productDemoService;
         }
 
         public async Task<IActionResult> Index()
@@ -30,10 +34,22 @@ namespace ChannelEngineOrderDemo.Web.Controllers
             return View(model);
         }
 
-        public async Task ResetStock(string merchantProductNo)
+        public async Task<IActionResult> ResetStock(string merchantProductNo)
         {
-            var model = new MostOrderedProductsModel();
-
+            var success = true;
+            try
+            {
+                await _productDemoService.ResetProductStock(merchantProductNo, 25);
+            }
+            catch
+            {
+                // ToDo: Error handling
+                success = false;
+            }
+            var model = new MostOrderedProductsModel { OperationSucceeded = success };
+            var productInfos = await _orderDemoService.GetProductsOrderByQtyDesc(5);
+            model.Products = productInfos;
+            return View("Index", model);
         }
 
         public IActionResult Privacy()

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ChannelEngineOrderDemo.Logic.Services
 {
     public interface IProductDemoService
     {
-        public void ResetProductStock(string merchantProductNo, int resetValue);
+        public Task ResetProductStock(string merchantProductNo, int resetValue);
     }
 }

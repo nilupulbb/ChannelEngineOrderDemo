@@ -1,38 +1,64 @@
-﻿
-@model MostOrderedProductsModel
+﻿@model MostOrderedProductsModel
 @{
     ViewData["Title"] = "Home Page";
 }
+@section Scripts
+{
+    <script type="text/javascript">
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+        $("#danger-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#danger-alert").slideUp(500);
+        });
+    </script>
+}
 
-<div class="text-center">
-    <h1 class="display-4">Channel Engine API Demo</h1>
-    <br />
-    <br />
-    <h2>Top 5 Products</h2>
+    <div class="text-center">
+        <h1 class="display-4">Channel Engine API Demo</h1>
+        <br />
+        <br />
+        <h2>Top 5 Products</h2>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Product</th>
-                <th scope="col">GTIN</th>
-                <th scope="col">Total Quantity</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var product in Model.Products)
-            {
-            <tr>
-                <th scope="row">@product.Description</th>
-                <td>@product.Gtin</td>
-                <td>@product.TotalQuantity</td>
-                <td><input class="btn btn-primary btn-sm" type="button" value="Reset Stock" onclick="location.href='@Url.Action("ResetStock", "Product")'" /></td>
-            </tr>
-            }
+        @if(Model.OperationSucceeded == true){
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+            Operation Successful!
+        </div>
+        }
 
-        </tbody>
+        @if(Model.OperationSucceeded == false){
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="danger-alert">
+            Operation Failed!
+        </div>
+        }
 
-    </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">GTIN</th>
+                    <th scope="col">Total Quantity</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <th scope="row">@product.Description</th>
+                        <td>@product.Gtin</td>
+                        <td>@product.TotalQuantity</td>
+                        <td>
+                            <input class="btn btn-primary btn-sm" type="button" value="Reset Stock"
+                                   onclick="location.href='@Url.Action("ResetStock", "Product", new { merchantProductNo = product.MerchantProductNo })'" />
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
 
 
-</div>
+    </div>
+

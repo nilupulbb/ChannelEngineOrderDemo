@@ -35,7 +35,7 @@ namespace ChannelEngineOrderDemo.Integration
 
         public async Task Patch(IList<PatchData> patches, string id)
         {
-            await Patch(_apiPathMinor + id + "/", patches);
+            await Patch(_apiPathMinor + "/" + id, patches);
         }
         protected IList<T> ExtractGetListFromResponse(string response)
         {

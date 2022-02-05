@@ -9,5 +9,7 @@ namespace ChannelEngineOrderDemo.Web.Models
     public class MostOrderedProductsModel
     {
         public IList<ProductInfo> Products { set; get; }
+
+        public bool? OperationSucceeded { set; get; } = null;
     }
 }
