@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChannelEngineOrderDemo.Logic
+﻿namespace ChannelEngineOrderDemo.Logic
 {
     /*
      * Communication object of product information

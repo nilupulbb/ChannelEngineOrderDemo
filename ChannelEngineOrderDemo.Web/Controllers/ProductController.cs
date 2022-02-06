@@ -2,7 +2,6 @@
 using ChannelEngineOrderDemo.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace ChannelEngineOrderDemo.Web.Controllers

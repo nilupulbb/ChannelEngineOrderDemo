@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChannelEngineOrderDemo.Logic.Objects
+﻿namespace ChannelEngineOrderDemo.Logic.Objects
 {
     /*
      * Communication object of patch data
