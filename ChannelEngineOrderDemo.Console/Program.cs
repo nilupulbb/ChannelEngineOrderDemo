@@ -7,10 +7,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ChannelEngineOrderDemo.Console
 {
+    /*
+     * Provides console UI for accessing Channel Engine API
+     */
     class Program
     {
-        private static readonly int tableWidth = System.Console.WindowWidth - 4;
-        private static readonly int firstRowWidth = 45;
+        private static readonly int _tableWidth = System.Console.WindowWidth - 4; //Character width of the table displayed in the console
+        private static readonly int _firstColumnWidth = 45; // Character width of the first column in the table
         static void Main(string[] args)
         {
             var builder = new ConfigurationBuilder()
@@ -25,6 +28,10 @@ namespace ChannelEngineOrderDemo.Console
 
             while (PromptToResetStock(serviceProvider)) { }
         }
+
+        /*
+         * Configures dependencies for DI
+         */
         private static ServiceProvider ConfigureDependencies(ServiceCollection services, IConfiguration configuration)
         {
 
@@ -36,12 +43,16 @@ namespace ChannelEngineOrderDemo.Console
             return services.BuildServiceProvider();
         }
 
+        /*
+         * Loads product data from the business logic and print it as a table
+         */
         private static void PrintProductTable(ServiceProvider serviceProvider)
         {
             System.Console.WriteLine("Most ordered products are listed below");
             try
             {
-                var products = serviceProvider.GetService<IOrderDemoService>().GetProductsOrderByQtyDesc(5).GetAwaiter().GetResult();
+                var orderDemoService = serviceProvider.GetService<IOrderDemoService>();
+                var products = orderDemoService.GetProductsOrderByQtyDesc(orderDemoService.GetInprogressOrders().GetAwaiter().GetResult(), 5);
                 PrintLine();
                 PrintRow("Product", "GTIN", "Quantity", "Merchant Product No");
                 PrintLine();
@@ -58,6 +69,9 @@ namespace ChannelEngineOrderDemo.Console
             }
         }
 
+        /*
+         * Prompt user to enter merchant product number to reset stock. Returns false if the user enters 'exit'
+         */
         private static bool PromptToResetStock(ServiceProvider serviceProvider)
         {
             System.Console.WriteLine("Enter Merchant Product Number to reset the stock. Enter 'exit' to exit");
@@ -77,26 +91,35 @@ namespace ChannelEngineOrderDemo.Console
         }
 
         #region Table Functions
+        /*
+         * Print line of a table
+         */
         private static void PrintLine()
         {
-            System.Console.WriteLine(new string('-', tableWidth));
+            System.Console.WriteLine(new string('-', _tableWidth));
         }
 
+        /*
+         * Print one row of the table
+         */
         private static void PrintRow(params string[] columns)
         {
-            int width = columns.Length == 1 ? 0 : (tableWidth - columns.Length - firstRowWidth) / (columns.Length - 1);
+            int width = columns.Length == 1 ? 0 : (_tableWidth - columns.Length - _firstColumnWidth) / (columns.Length - 1);
             string row = "|";
 
             var isFirst = true;
             foreach (string column in columns)
             {
-                row += AlignCentre(column, isFirst ? firstRowWidth : width) + "|";
+                row += AlignCentre(column, isFirst ? _firstColumnWidth : width) + "|";
                 isFirst = false;
             }
 
             System.Console.WriteLine(row);
         }
 
+        /*
+         * Print one cell of the table aligning center
+         */
         private static string AlignCentre(string text, int width)
         {
             text = text.Length > width ? text.Substring(0, width - 3) + "..." : text;

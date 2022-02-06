@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using ChannelEngineOrderDemo.Core.Enums;
+using ChannelEngineOrderDemo.Core;
 
 namespace ChannelEngineOrderDemo.Logic.Services
 {
+    /*
+     * Implementation of orders business logic. See the interfaces to see the purposes of the methods
+     */
     public class OrderDemoService : IOrderDemoService
     {
         private readonly IOrderService _orderService;
@@ -15,10 +19,14 @@ namespace ChannelEngineOrderDemo.Logic.Services
             _orderService = orderService;
         }
 
-        public async Task<IList<ProductInfo>> GetProductsOrderByQtyDesc(int numberOfOrders)
+        public async Task<IList<Order>> GetInprogressOrders()
         {
-            var orders = await _orderService.GetList(new Dictionary<string, string> { { _orderService.GetServiceSpecificOrderStatusKey()
+            return await _orderService.GetList(new Dictionary<string, string> { { _orderService.GetServiceSpecificOrderStatusKey()
                                                                                            , _orderService.GetServiceSpecificOrderStatus(OrderStatus.Inprogress) } });
+        }
+
+        public IList<ProductInfo> GetProductsOrderByQtyDesc(IList<Order> orders, int numberOfProducts)
+        {
             var products = new List<ProductInfo>();
             if (orders.Count > 0 && orders.Any(p => p.Lines.Length > 0))
             {
@@ -34,7 +42,7 @@ namespace ChannelEngineOrderDemo.Logic.Services
                                 MerchantProductNo = p.First().MerchantProductNo
                             })
                             .OrderByDescending(p => p.TotalQuantity)
-                            .Take(numberOfOrders).ToList();
+                            .Take(numberOfProducts).ToList();
             }
             return products;
         }

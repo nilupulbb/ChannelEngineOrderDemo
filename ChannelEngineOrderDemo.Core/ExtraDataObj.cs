@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChannelEngineOrderDemo.Core
+﻿namespace ChannelEngineOrderDemo.Core
 {
+    /*
+     * Extra Data data object
+     */
     public class ExtraDataObj
     {
         public string ExtraData { get; set; }

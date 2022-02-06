@@ -1,20 +1,19 @@
 ﻿using ChannelEngineOrderDemo.Core;
 using ChannelEngineOrderDemo.Core.Enums;
-using ChannelEngineOrderDemo.Integration.ResponseObj;
 using ChannelEngineOrderDemo.Logic.Infrastructure;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 
 namespace ChannelEngineOrderDemo.Integration
 {
+    /*
+     * Provides API access methods related to orders
+     */
     public class OrderService : APIService<Order>, IOrderService
     {
         public OrderService(string apiPathMajor, string apiKey) : base(apiPathMajor, "orders", apiKey) { }
 
+        /*
+         * Get API specific status string from BL specific order status enum
+         */
         public string GetServiceSpecificOrderStatus(OrderStatus orderStatus)
         {
             switch (orderStatus) {
@@ -26,6 +25,9 @@ namespace ChannelEngineOrderDemo.Integration
 
         }
 
+        /*
+         * Get API status key name for status
+         */
         public string GetServiceSpecificOrderStatusKey()
         {
             return "statuses";

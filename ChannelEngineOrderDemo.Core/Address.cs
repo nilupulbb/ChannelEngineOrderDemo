@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChannelEngineOrderDemo.Core
+﻿namespace ChannelEngineOrderDemo.Core
 {
+    /*
+     * Address data object
+     */
     public class Address
     {
         public string Line1 { get; set; }

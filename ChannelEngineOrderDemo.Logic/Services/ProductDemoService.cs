@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ChannelEngineOrderDemo.Logic.Services
 {
+    /*
+     * Implementation of product service. See the interface to learn the purposes of the methods
+     */
     public class ProductDemoService : IProductDemoService
     {
         private readonly IProductService _productService;

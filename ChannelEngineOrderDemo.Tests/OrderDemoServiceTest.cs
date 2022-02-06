@@ -4,22 +4,27 @@ using ChannelEngineOrderDemo.Logic.Infrastructure;
 using ChannelEngineOrderDemo.Logic.Objects;
 using ChannelEngineOrderDemo.Logic.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ChannelEngineOrderDemo.Tests
 {
+    /*
+     * Test class for testing methods related to order business logic
+     */
     [TestClass]
     public class OrderDemoServiceTest
     {
+
+        /*
+         * Tests GetProductsOrderByQtyDesc method
+         */
         [TestMethod]
         public async Task GetProductsOrderByQtyDesc_Test()
         {
             var orderService = new OrderServiceDummy();
             var orderDemoService = new OrderDemoService(orderService);
-            var products = await orderDemoService.GetProductsOrderByQtyDesc(5);
+            var products = orderDemoService.GetProductsOrderByQtyDesc(await orderDemoService.GetInprogressOrders(), 5);
             var expectedProductNames = new List<string> { "Product8", "Product6", "Product1", "Product3", "Product5" };
             var expectedProductQuanties = new List<float> { 67, 64, 53, 43, 34 };
             var actualProductNames = new List<string>();
@@ -33,6 +38,9 @@ namespace ChannelEngineOrderDemo.Tests
             CollectionAssert.AreEqual(expectedProductQuanties, actualProductQuantities);
         }
 
+        /*
+         * Dummy order data service for the use of testing
+         */
         class OrderServiceDummy : IOrderService
         {
             public async Task<IList<Order>> GetList(IDictionary<string, string> filters)

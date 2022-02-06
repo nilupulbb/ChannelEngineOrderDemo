@@ -1,13 +1,22 @@
 ﻿using ChannelEngineOrderDemo.Core;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ChannelEngineOrderDemo.Logic.Services
 {
+    /*
+     * Contract of order business logic
+     */
     public interface IOrderDemoService
     {
-        public Task<IList<ProductInfo>> GetProductsOrderByQtyDesc(int numberOfOrders);
+        /*
+         * Get list of inprogress orders
+         */
+        public Task<IList<Order>> GetInprogressOrders();
+
+        /*
+         * Get list of most sold products from orders
+         */
+        public IList<ProductInfo> GetProductsOrderByQtyDesc(IList<Order> orders, int numberOfProducts);
     }
 }

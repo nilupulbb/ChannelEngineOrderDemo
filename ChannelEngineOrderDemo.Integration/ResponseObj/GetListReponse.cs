@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChannelEngineOrderDemo.Integration.ResponseObj
+﻿namespace ChannelEngineOrderDemo.Integration.ResponseObj
 {
+    /*
+     * Generic type for keep data returned from web service for get list request
+     */
     public class GetListReponse<T>
     {
         public T[] Content { get; set; }

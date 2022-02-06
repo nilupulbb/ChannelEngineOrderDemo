@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ChannelEngineOrderDemo.Core
 {
+    /*
+     * Line details of the order
+     */
     public class LineDetail
     {
         public string Status { get; set; }

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChannelEngineOrderDemo.Core
+﻿namespace ChannelEngineOrderDemo.Core
 {
+    /*
+     * Product data stored using this class
+     */
     public class Product
     {
         public string MerchantProductNo { set; get; }

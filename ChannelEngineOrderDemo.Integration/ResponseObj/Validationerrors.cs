@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ChannelEngineOrderDemo.Integration.ResponseObj
+﻿namespace ChannelEngineOrderDemo.Integration.ResponseObj
 {
+    /*
+     * type to store validation errors returned by the API
+     */
     public class Validationerrors
     {
     }

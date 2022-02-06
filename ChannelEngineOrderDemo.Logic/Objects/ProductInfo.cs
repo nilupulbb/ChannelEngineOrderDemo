@@ -4,6 +4,9 @@ using System.Text;
 
 namespace ChannelEngineOrderDemo.Logic
 {
+    /*
+     * Communication object of product information
+     */
     public class ProductInfo
     {
         public string Description { set; get; }

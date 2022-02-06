@@ -1,12 +1,8 @@
-﻿using ChannelEngineOrderDemo.Logic;
-using ChannelEngineOrderDemo.Logic.Services;
+﻿using ChannelEngineOrderDemo.Logic.Services;
 using ChannelEngineOrderDemo.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ChannelEngineOrderDemo.Web.Controllers
@@ -29,7 +25,7 @@ namespace ChannelEngineOrderDemo.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var model = new MostOrderedProductsModel();
-            var productInfos = await _orderDemoService.GetProductsOrderByQtyDesc(5);
+            var productInfos = _orderDemoService.GetProductsOrderByQtyDesc(await _orderDemoService.GetInprogressOrders(), 5);
             model.Products = productInfos;
             return View(model);
         }
@@ -47,20 +43,9 @@ namespace ChannelEngineOrderDemo.Web.Controllers
                 success = false;
             }
             var model = new MostOrderedProductsModel { OperationSucceeded = success };
-            var productInfos = await _orderDemoService.GetProductsOrderByQtyDesc(5);
+            var productInfos = _orderDemoService.GetProductsOrderByQtyDesc(await _orderDemoService.GetInprogressOrders(), 5);
             model.Products = productInfos;
             return View("Index", model);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
