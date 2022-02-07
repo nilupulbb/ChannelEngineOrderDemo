@@ -33,7 +33,7 @@ namespace ChannelEngineOrderDemo.Logic.Services
                 products = orders
                             .Where(p => p.Lines != null)
                             .SelectMany(p => p.Lines)
-                            .GroupBy(p => p.Description)
+                            .GroupBy(p => p.MerchantProductNo)
                             .Select(p => new ProductInfo
                             {
                                 Description = p.First().Description,
